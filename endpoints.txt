@@ -1,0 +1,31 @@
+curl --location --request GET 'http://localhost:8000/block/height/0'
+
+curl --location --request GET 'http://localhost:8000/block/height/0'
+{"hash":"574df3d333a9740576f7023b8a85806329c29530b2ec8000f9a636958cd98c81",
+"height":0,
+"body":"7b2264617461223a2247656e6573697320426c6f636b227d",
+"time":"1655148812",
+"previousBlockHash":null}
+
+
+curl --location --request POST 'http://localhost:8000/requestValidation' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "address" : "bc1qkldvk4azf38qkymn0pyq0a3he84kpylzmtevys"
+}'
+
+
+
+curl --location --request POST 'http://localhost:8000/submitstar' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "address" : "bc1qkldvk4azf38qkymn0pyq0a3he84kpylzmtevys",
+    "signature" :"IEyZnqohSmm7Gtjek3K4+2OsPWTSKa4EX3eWliFG1yFtUg0ShS9jQgeg+pPMix37BsOrJYw+Z0IZbV5QeUqp45E=",
+    "message" : "bc1qkldvk4azf38qkymn0pyq0a3he84kpylzmtevys:1655235704:starRegistry",
+    "star" : {
+        "dec" : "68 52 56.9",
+        "ra" : "16h 29m 1.0s",
+        "story" : "Testing submitStar 4"
+    }
+}'
+
