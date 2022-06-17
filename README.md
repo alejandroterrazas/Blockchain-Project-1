@@ -76,7 +76,7 @@ The following commands can be run in curl or postman.  A screen shot is included
 curl --location --request GET 'http://localhost:8000/block/height/0' | json_pp
 ```
 
-![Genesis Block] (./screenshots/Block0.png)
+![Genesis Block] (screenshots/Block0.png)
     
 ##Request ownership using wallet address:
 
@@ -88,7 +88,7 @@ curl --location --request POST 'http://localhost:8000/requestValidation' \
 }' | json_pp
 ```
 
-![Reqeust Validate] (./screenshots/RequestValidation.png)
+![Reqeust Validate] (screenshots/RequestValidation.png)
 
 Copy the message for the next step.  
 
@@ -96,7 +96,7 @@ Copy the message for the next step.
 ##Sign the message with the Electrum Wallet:
 Important!! Use non-segwit addresses.  The messagejs-block module will not run properly with Electrum segwit addresses.  Use an older version of Electrum.  
 
-![Sign] (./screenshots/ElectrumSignMessage.png)
+![Sign] (screenshots/ElectrumSignMessage.png)
 
 Copy the signature for the next step.
 
@@ -118,7 +118,7 @@ curl --location --request POST 'http://localhost:8000/submitstar' \
 
 ```
 
-![Submit Star] (./screenshots/SubmitStar.png)
+![Submit Star] (screenshots/SubmitStar.png)
 
 ##Retrieve Stars at a Wallet Addess.
 ```
@@ -127,6 +127,6 @@ curl --location --request GET
 
 ```
 
-![Retrieve Stars] (./screenshots/GetStarsByWallet.png)
+![Retrieve Stars] (screenshots/GetStarsByWallet.png)
 
 
