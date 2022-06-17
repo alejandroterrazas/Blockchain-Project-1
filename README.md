@@ -69,20 +69,24 @@ Start the code `node app.js`
 Curl was used to test the code using five tests-
 From a terminal, change directories into the Blockchain-project-1 folder. Run your application using the command `node app.js`  The terminal will respond with a message indicating that the server is listening in port 8000: 
 
-The following commands can be run in curl or postmean.  A screen shot is included for each command.  
+The following commands can be run in curl or postman.  A screen shot is included for each command.  
 
-1. Request the genesis block:  
-```curl --location --request GET 'http://localhost:8000/block/height/0' | json_pp```
+##Request the genesis block:  
+```
+curl --location --request GET 'http://localhost:8000/block/height/0' | json_pp
+```
 
 ![Genesis Block] (./screenshots/Block0.png)
     
-2. Request ownership using wallet address:
-```curl --location --request POST 'http://localhost:8000/requestValidation' \
+##Request ownership using wallet address:
+
+```
+curl --location --request POST 'http://localhost:8000/requestValidation' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "address" : "1Asc2Yi4ETvucexs2TtFqNUcSWEL3njkyt"
 }' | json_pp
-'```
+```
 
 ![Reqeust Validate] (./screenshots/RequestValidation.png)
 
@@ -98,7 +102,8 @@ Copy the signature for the next step.
 
 ##Submit a Star
 
-```curl --location --request POST 'http://localhost:8000/submitstar' \
+```
+curl --location --request POST 'http://localhost:8000/submitstar' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "address" : "1Asc2Yi4ETvucexs2TtFqNUcSWEL3njkyt",
@@ -116,8 +121,10 @@ Copy the signature for the next step.
 ![Submit Star] (./screenshots/SubmitStar.png)
 
 ##Retrieve Stars at a Wallet Addess.
-```curl --location --request GET 
+```
+curl --location --request GET 
 'http://localhost:8000/blocks/1Asc2Yi4ETvucexs2TtFqNUcSWEL3njkyt'
+
 ```
 
 ![Retrieve Stars] (./screenshots/GetStarsByWallet.png)
