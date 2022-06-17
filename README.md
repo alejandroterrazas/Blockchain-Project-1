@@ -30,8 +30,7 @@ Develop a Blockchain application for registering stars.  The application include
 
 ## Tools used
 
-- This application will be created using Node.js and Javascript programming language. The architecture will use ES6 classes
-because it helps organize the code and facilitate the maintnance of the code.
+- This application is created using Node.js and the Javascript programming language. The architecture will use ES6 classes to help organize the code and facilitate the maintnance of the code.
 
 - Some of the libraries or npm modules used are:
     - "bitcoinjs-lib": "^4.0.3",
@@ -41,43 +40,86 @@ because it helps organize the code and facilitate the maintnance of the code.
     - "express": "^4.16.4",
     - "hex2ascii": "0.0.3",
     - "morgan": "^1.9.1"
-    Remember if you need install any other library you will use `npm install <npm_module_name>`
+    
 
-Libraries purpose:
 
-1. `bitcoinjs-lib` and `bitcoinjs-message`. Those libraries will help us to verify the wallet address ownership, we are going to use it to verify the signature.
-2. `express` The REST Api created for the purpose of this project it is being created using Express.js framework.
-3. `body-parser` this library will be used as middleware module for Express and will help us to read the json data submitted in a POST request.
-4. `crypto-js` This module contain some of the most important cryotographic methods and will help us to create the block hash.
-5. `hex2ascii` This library will help us to **decode** the data saved in the body of a Block.
+Libraries Used:
+
+1. `bitcoinjs-lib` and `bitcoinjs-message`. Verify the wallet address ownership and signature.
+2. `express` The REST Api (created using Express.js framework).
+3. `body-parser` this library will be used as middleware module for Express and decoding url requests.
+4. `crypto-js` Contain the cryotographic methods for creating the block hash.
+5. `hex2ascii` For **decoding** the data saved in the body of a Block.
 
 ## Understanding code
 
-The code is a simple architecture for a Blockchain application, it includes a REST APIs application to expose the your Blockchain application methods to your client applications or users.
+The code is a simple architecture for a Blockchain application, it includes a REST API application to expose the Blockchain application methods.
 
-1. `app.js` file. It contains the configuration and initialization of the REST Api, the team who provide this boilerplate code suggest do not change this code because it is already tested and works as expected.
-2. `BlockchainController.js` file. It contains the routes of the REST Api. Those are the methods that expose the urls you will need to call when make a request to the application.
-3. `src` folder. In here we are going to have the main two classes we needed to create our Blockchain application, we are going to create a `block.js` file and a `blockchain.js` file that will contain the `Block` and `BlockChain` classes.
+1. `app.js`. Contains the configuration and initialization of the REST API.
+2. `BlockchainController.js`. Contains the routes of the REST API; that is, the methods that expose the urls to call when a request is made to the application.
+3. `src` folder. Contains`block.js` and `blockchain.js` that contain `Block` and `BlockChain` classes.
 
 You can check in your terminal the the Express application is listening in the PORT 8000
 
 
-## How to test your application functionalities?
+## Testing the Code
 
-To test your application I recommend you to use POSTMAN, this tool will help you to make the requests to the API.
-Always is useful to debug your code see what is happening in your algorithm, so I will let you this video for you to check on how to do it >https://www.youtube.com/watch?v=6cOsxaNC06c . Try always to debug your code to understand what you are doing.
+Start the code `node app.js`
 
-1. Run your application using the command `node app.js`
-You should see in your terminal a message indicating that the server is listening in port 8000:
-> Server Listening for port: 8000
+Curl was used to test the code using five tests-
+From a terminal, change directories into the Blockchain-project-1 folder. Run your application using the command `node app.js`  The terminal will respond with a message indicating that the server is listening in port 8000: 
 
-2. To make sure your application is working fine and it creates the Genesis Block you can use POSTMAN to request the Genesis block:
-    ![Request: http://localhost:8000/block/0 ](https://s3.amazonaws.com/video.udacity-data.com/topher/2019/April/5ca360cc_request-genesis/request-genesis.png)
-3. Make your first request of ownership sending your wallet address:
-    ![Request: http://localhost:8000/requestValidation ](https://s3.amazonaws.com/video.udacity-data.com/topher/2019/April/5ca36182_request-ownership/request-ownership.png)
-4. Sign the message with your Wallet:
-    ![Use the Wallet to sign a message](https://s3.amazonaws.com/video.udacity-data.com/topher/2019/April/5ca36182_request-ownership/request-ownership.png)
-5. Submit your Star
-     ![Request: http://localhost:8000/submitstar](https://s3.amazonaws.com/video.udacity-data.com/topher/2019/April/5ca365d3_signing-message/signing-message.png)
-6. Retrieve Stars owned by me
-    ![Request: http://localhost:8000/blocks/<WALLET_ADDRESS>](https://s3.amazonaws.com/video.udacity-data.com/topher/2019/April/5ca362b9_retrieve-stars/retrieve-stars.png)
+The following commands can be run in curl or postmean.  A screen shot is included for each command.  
+
+1. Request the genesis block:  
+```curl --location --request GET 'http://localhost:8000/block/height/0' | json_pp```
+
+![Genesis Block] (./screenshots/Block0.png)
+    
+2. Request ownership using wallet address:
+```curl --location --request POST 'http://localhost:8000/requestValidation' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "address" : "1Asc2Yi4ETvucexs2TtFqNUcSWEL3njkyt"
+}' | json_pp
+'```
+
+![Reqeust Validate] (./screenshots/RequestValidation.png)
+
+Copy the message for the next step.  
+
+
+##Sign the message with the Electrum Wallet:
+Important!! Use non-segwit addresses.  The messagejs-block module will not run properly with Electrum segwit addresses.  Use an older version of Electrum.  
+
+![Sign] (./screenshots/ElectrumSignMessage.png)
+
+Copy the signature for the next step.
+
+##Submit a Star
+
+```curl --location --request POST 'http://localhost:8000/submitstar' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "address" : "1Asc2Yi4ETvucexs2TtFqNUcSWEL3njkyt",
+    "signature" :"INxnxsn7g/2kAd7IR20/mV7uDauj3tyfF0X59elZbK0QbdpjPAV+xU825EO3+tNg6n666KEKLNnJzDpNKCyUmoM=",
+    "message" : "1Asc2Yi4ETvucexs2TtFqNUcSWEL3njkyt:1655499229:starRegistry",
+    "star" : {
+        "dec" : "68 52 56.9",
+        "ra" : "16h 29m 1.0s",
+        "story" : "Testing submitStar 4"
+    }
+}'
+
+```
+
+![Submit Star] (./screenshots/SubmitStar.png)
+
+##Retrieve Stars at a Wallet Addess.
+```curl --location --request GET 
+'http://localhost:8000/blocks/1Asc2Yi4ETvucexs2TtFqNUcSWEL3njkyt'
+```
+
+![Retrieve Stars] (./screenshots/GetStarsByWallet.png)
+
+
